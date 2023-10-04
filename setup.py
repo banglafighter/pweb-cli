@@ -9,12 +9,12 @@ env = os.environ.get('source')
 
 
 def get_dependencies():
-    dependency = []
+    dependency = ["virtualenv", "GitPython==3.1.37"]
 
     if env and env == "dev":
         return dependency
 
-    return dependency + []
+    return dependency + ["ppy-common"]
 
 
 setup(
@@ -32,6 +32,11 @@ setup(
     include_package_data=True,
     platforms='any',
     install_requires=get_dependencies(),
+    entry_points={
+        'console_scripts': [
+            'pwebsm=pweb_cli.pweb_sm_cli:pweb_cli_bsw'
+        ],
+    },
     classifiers=[
         'Intended Audience :: Developers',
         'License :: OSI Approved :: Apache Software License',
