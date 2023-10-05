@@ -1,5 +1,7 @@
 from ppy_common import Console, click
-from pweb_cli.source.pweb_source_cli import pweb_source_setup
+from pweb_cli.deploy.pweb_deploy_cli import pweb_deploy_cli
+from pweb_cli.module.pweb_module_cli import pweb_module_cli
+from pweb_cli.project.pweb_project_cli import pweb_project_cli
 
 Console.blue("--------------------------------", bold=True)
 Console.green("      PWeb Source Manager      ", bold=True)
@@ -11,4 +13,6 @@ def pweb_cli_bsw():
     pass
 
 
-pweb_cli_bsw.add_command(pweb_source_setup)
+pweb_cli_bsw.add_command(pweb_project_cli)
+pweb_cli_bsw.add_command(pweb_module_cli)
+pweb_cli_bsw.add_command(pweb_deploy_cli)
