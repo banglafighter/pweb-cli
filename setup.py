@@ -24,7 +24,7 @@ setup(
     license='Apache 2.0',
     author='Problem Fighter',
     author_email='problemfighter.com@gmail.com',
-    description='Command line tools for PWeb application, which allow to make PWeb work easy.',
+    description='Command line interface for PWeb application, which allow to make PWeb work easy.',
     long_description=README,
     long_description_content_type='text/markdown',
     packages=find_packages(),
@@ -34,7 +34,7 @@ setup(
     install_requires=get_dependencies(),
     entry_points={
         'console_scripts': [
-            'pwebsm=pweb_cli.pweb_sm_cli:pweb_cli_bsw'
+            'pwebcli=pweb_cli.pweb_cli_bsw:pweb_cli_bsw'
         ],
     },
     classifiers=[
