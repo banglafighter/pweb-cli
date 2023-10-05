@@ -5,3 +5,10 @@ from ppy_common import click
 def pweb_module_cli():
     pass
 
+
+@click.command(name="init", help="Initialize new module")
+def init():
+    pass
+
+
+pweb_module_cli.add_command(init)

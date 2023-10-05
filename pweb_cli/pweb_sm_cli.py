@@ -1,6 +1,6 @@
 from ppy_common import Console, click
-from pweb_cli.deploy.pweb_deploy_cli import pweb_deploy_cli
 from pweb_cli.module.pweb_module_cli import pweb_module_cli
+from pweb_cli.prod.pweb_prod_cli import pweb_prod_cli
 from pweb_cli.project.pweb_project_cli import pweb_project_cli
 
 Console.blue("--------------------------------", bold=True)
@@ -15,4 +15,4 @@ def pweb_cli_bsw():
 
 pweb_cli_bsw.add_command(pweb_project_cli)
 pweb_cli_bsw.add_command(pweb_module_cli)
-pweb_cli_bsw.add_command(pweb_deploy_cli)
+pweb_cli_bsw.add_command(pweb_prod_cli)
