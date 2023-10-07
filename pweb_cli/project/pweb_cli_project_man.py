@@ -23,6 +23,8 @@ class PWebCLIProjectMan:
         self.pweb_source_man.create_pwebsm_yml(project_root=project_root, name=name, ui_type=ui_type)
 
         Console.success("Creating project required files")
+        self.pweb_source_man.process_pweb_files(project_root=project_root, name=name, port=port)
+
         Console.success("Creating virtual environment for the project")
         Console.success("Resolving project dependencies")
 
