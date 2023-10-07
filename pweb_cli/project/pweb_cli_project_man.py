@@ -44,8 +44,12 @@ class PWebCLIProjectMan:
         Console.info("First active the virtual environment")
         Console.info("Run Command: pweb_app.py")
 
-    def setup(self):
-        pass
+    def setup(self, repo, directory, branch, env):
+        Console.success(f"Starting setup...")
+        self.pweb_source_man.setup(repo=repo, directory=directory, branch=branch, env=env)
+        Console.success(f"Setup process has been completed")
 
-    def update(self):
-        pass
+    def update(self, env):
+        Console.success(f"Starting update...")
+        self.pweb_source_man.update(env=env)
+        Console.success(f"Update process has been completed")

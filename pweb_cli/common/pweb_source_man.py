@@ -4,13 +4,15 @@ from ppy_common import Console
 from ppy_file_text import FileUtil, StringUtil, TextFileMan
 from ppy_jsonyml import YamlConverter
 from pweb_cli.common.pweb_cli_init_data import PWebCLIInitData
-from pweb_cli.common.pweb_cli_named import PWebCLINamed, UIType
+from pweb_cli.common.pweb_cli_named import PWebCLINamed, UIType, ActionStatus
 from pweb_cli.common.pweb_cli_path import PWebCLIPath
-from pweb_cli.data.pweb_cli_pwebsm import PWebSM
+from pweb_cli.common.pweb_git_repo import PWebGitRepo
+from pweb_cli.data.pweb_cli_pwebsm import PWebSM, PWebSMModule, PWebSMClone
 
 
 class PWebSourceMan:
     yaml_converter = YamlConverter()
+    pweb_git_repo = PWebGitRepo()
     pwebsm_file_name = "pwebsm.yml"
     pwebsm_file_extension = ".yml"
 
@@ -134,8 +136,75 @@ class PWebSourceMan:
             Console.info("Running end script")
             self._run_script(project_root=project_root, command_root=project_root, scrips=pweb_sm.end_script)
 
+    def _process_clone(self, project_root, clone: PWebSMClone, base_dir: str):
+        if not clone.status or clone.status != ActionStatus.active or not clone.repo:
+            return
+
+        Console.info(f"Starting clone work")
+        parent_script = clone.script
+        parent_branch = clone.branch
+
+        for repo in clone.repo:
+            if not repo.url:
+                continue
+
+            scripts = parent_script
+            if repo.script:
+                scripts = repo.script
+
+            name = repo.name
+            if not name:
+                name = self.pweb_git_repo.get_repo_name_from_url(repo.url)
+
+            branch = None
+            if repo.branch:
+                branch = repo.branch
+            elif parent_branch:
+                branch = parent_branch
+
+            clone_dir = FileUtil.join_path(project_root, base_dir)
+            FileUtil.create_directories(clone_dir)
+
+            Console.info(f"Clone Project : {repo.url}")
+            self.pweb_git_repo.clone_or_pull_project(path=clone_dir, url=repo.url, branch=branch)
+            command_root = FileUtil.join_path(clone_dir, name)
+            if not FileUtil.is_exist(command_root) or not scripts:
+                continue
+
+            Console.info(f"Running script for {name}")
+            self._run_script(project_root=project_root, command_root=command_root, scrips=scripts)
+
+    def _process_module(self, project_root, module: PWebSMModule, base_dir: str):
+        if not module.status or module.status != ActionStatus.active or not module.subdir:
+            return
+
+        Console.info(f"Starting model work")
+        parent_script = module.script
+        for child_module in module.subdir:
+            command_root = FileUtil.join_path(project_root, base_dir, child_module.name)
+            scripts = parent_script
+            if child_module.script:
+                scripts = child_module.script
+            if not scripts:
+                continue
+
+            Console.info(f"Running script for {child_module.name}")
+            self._run_script(project_root=project_root, command_root=command_root, scrips=scripts)
+
     def _process_dependencies(self, project_root, pweb_sm: PWebSM):
-        pass
+        if not pweb_sm or not project_root or not pweb_sm.dependencies:
+            return
+
+        for dependency in pweb_sm.dependencies:
+
+            if not dependency.status or dependency.status != ActionStatus.active:
+                continue
+
+            if dependency.clone:
+                self._process_clone(project_root=project_root, clone=dependency.clone, base_dir=dependency.dir)
+
+            if dependency.module:
+                self._process_module(project_root=project_root, module=dependency.module, base_dir=dependency.dir)
 
     def process_pwebsm_file(self, project_root, file_path: str):
         pweb_sm: PWebSM = self.yaml_converter.read_yaml_object_from_file(file_path_with_name=file_path, od_object=PWebSM())
@@ -144,4 +213,22 @@ class PWebSourceMan:
         self._run_start_script(project_root=project_root, pweb_sm=pweb_sm)
         self._process_dependencies(project_root=project_root, pweb_sm=pweb_sm)
         self._run_end_script(project_root=project_root, pweb_sm=pweb_sm)
+
+    def _setup_or_update(self, project_root, url=None, branch=None, env=None, directory=None):
+        if url and branch:
+            self.pweb_git_repo.clone_or_pull_project(project_root, url, branch)
+        self.create_virtual_env(project_root=project_root)
+        self.run_pwebsm(project_root=project_root, env=env, directory=directory)
+
+    def update(self, env):
+        project_root = os.getcwd()
+        self._setup_or_update(project_root=project_root, env=env)
+
+    def setup(self, repo, directory, branch, env):
+        if not directory:
+            directory = self.pweb_git_repo.get_repo_name_from_url(repo)
+        project_root = self.project_root_dir(directory=directory)
+        if FileUtil.is_exist(project_root):
+            raise Exception("{} Path already exist.".format(str(project_root)))
+        self._setup_or_update(project_root=project_root, url=repo, branch=branch, env=env)
 

@@ -11,13 +11,26 @@ def pweb_project_cli():
 
 
 @click.command(name="setup", help="Setup PWeb Project from git repo")
-def setup():
-    pass
+@click.option("--repo", "-r", help="Give Project Git Repository", required=True)
+@click.option("--directory", "-d", help="Project directory name", default=None, show_default=True)
+@click.option("--branch", "-b", help="Enter project branch", default="dev", show_default=True)
+@click.option("--environment", "-e", help="Enter project environment name", default=None, show_default=True)
+def setup(repo, directory, branch, environment):
+    try:
+        pweb_cli_project_man.setup(repo=repo, branch=branch, directory=directory, env=environment)
+    except Exception as e:
+        print("\n\n")
+        Console.error(str(e))
 
 
 @click.command(name="update", help="Download new changes and update the project")
-def update():
-    pass
+@click.option("--environment", "-e", help="Enter project environment name", default=None, show_default=True)
+def update(environment):
+    try:
+        pweb_cli_project_man.update(env=environment)
+    except Exception as e:
+        print("\n\n")
+        Console.error(str(e))
 
 
 @click.command(name="init", help="Initialize project from scratch")

@@ -14,6 +14,7 @@ class PWebCLIInitData:
         ]
 
         pweb_sm.end_script = [
+            "python setup.py develop --uninstall"
             "python setup.py develop"
         ]
 
@@ -22,13 +23,13 @@ class PWebCLIInitData:
             pweb_sm.end_script.append("yarn install")
 
         clone: PWebSMClone = PWebSMClone(status=ActionStatus.inactive, branch="dev")
-        clone.add_repo(PWebSMRepo(url="https://github.com/problemfighter/pweb.git", script=["python setup.py develop"]))
+        clone.add_repo(PWebSMRepo(url="https://github.com/problemfighter/pweb.git", script=["python setup.py develop --uninstall", "python setup.py develop"]))
 
         source_dependency: PWebSMDependency = PWebSMDependency(name="Source Development", status=ActionStatus.inactive, dir="dependencies")
         source_dependency.clone = clone
         pweb_sm.add_dependency(source_dependency)
 
-        module: PWebSMModule = PWebSMModule(status=ActionStatus.inactive, script=["python setup.py develop"])
+        module: PWebSMModule = PWebSMModule(status=ActionStatus.inactive, script=["python setup.py develop --uninstall", "python setup.py develop"])
         module.add_subdir(PWebSMDirectory(name="example-app"))
 
         app_dependency: PWebSMDependency = PWebSMDependency(name="Application", status=ActionStatus.inactive, dir="application")
