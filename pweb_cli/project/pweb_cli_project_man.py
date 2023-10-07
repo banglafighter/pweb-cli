@@ -20,6 +20,8 @@ class PWebCLIProjectMan:
         project_root = self.pweb_source_man.get_project_root_dir(directory=directory)
 
         Console.success("Creating source management descriptor")
+        self.pweb_source_man.create_pwebsm_yml(project_root=project_root, name=name, ui_type=ui_type)
+
         Console.success("Creating project required files")
         Console.success("Creating virtual environment for the project")
         Console.success("Resolving project dependencies")

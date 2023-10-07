@@ -13,7 +13,7 @@ dependencies:
       status: "inactive"
       script:
         - python setup.py develop
-      dir:
+      subdir:
         - name: "example-module"
           script:
             - python setup.py develop
