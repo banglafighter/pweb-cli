@@ -1,0 +1,2 @@
+class PWebCLIDescriptor:
+    pass
