@@ -29,6 +29,7 @@ def init(name, port, directory, ui_type):
     try:
         pweb_cli_project_man.init(name=name, port=port, directory=directory, ui_type=ui_type)
     except Exception as e:
+        print("\n\n")
         Console.error(str(e))
 
 

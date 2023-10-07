@@ -19,6 +19,22 @@ class PWebCLIProjectMan:
         directory = self.get_directory_name(name=directory)
         project_root = self.pweb_source_man.get_project_root_dir(directory=directory)
 
+        Console.success("Creating source management descriptor")
+        Console.success("Creating project required files")
+        Console.success("Creating virtual environment for the project")
+        Console.success("Resolving project dependencies")
+
+        print("\n")
+        Console.success("----------------------------------------")
+        Console.red("           Congratulations!!", bold=True)
+        Console.yellow("      Project has been Initialized")
+        Console.success("----------------------------------------")
+
+        print("\n")
+        Console.info("Go to project directory: " + directory)
+        Console.info("First active the virtual environment")
+        Console.info("Run Command: pweb_app.py")
+
     def setup(self):
         pass
 
