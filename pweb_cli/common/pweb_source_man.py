@@ -6,6 +6,7 @@ from ppy_jsonyml import YamlConverter
 from pweb_cli.common.pweb_cli_init_data import PWebCLIInitData
 from pweb_cli.common.pweb_cli_named import PWebCLINamed, UIType
 from pweb_cli.common.pweb_cli_path import PWebCLIPath
+from pweb_cli.data.pweb_cli_pwebsm import PWebSM
 
 
 class PWebSourceMan:
@@ -32,12 +33,12 @@ class PWebSourceMan:
             env_postfix = "-" + env
         return self.pwebsm_file_name + env_postfix + self.pwebsm_file_extension
 
-    def run_command_with_venv(self, command_root, project_root, command, mode):
+    def run_command_with_venv(self, command_root, project_root, command):
         active = "source " + FileUtil.join_path(project_root, PWebCLINamed.VENV_DIR_NAME, "bin", "activate")
         if sys.platform == "win32":
             active = FileUtil.join_path(project_root, PWebCLINamed.VENV_DIR_NAME, "Scripts", "activate")
         command = active + " && " + command
-        Console.run(command, command_root, env=dict(os.environ, **{"source": mode}))
+        Console.run(command, command_root, env=dict(os.environ))
 
     def create_pwebsm_yml(self, project_root, name, ui_type):
         pwebsm = PWebCLIInitData.get_default_pwebsm(name=name, ui_type=ui_type)
@@ -104,3 +105,43 @@ class PWebSourceMan:
     def create_virtual_env(self, project_root):
         if not FileUtil.is_exist(FileUtil.join_path(project_root, PWebCLINamed.VENV_DIR_NAME)):
             Console.run(self.get_python() + " -m venv " + PWebCLINamed.VENV_DIR_NAME, project_root)
+
+    def run_pwebsm(self, project_root=None, env=None, directory=None):
+        if not project_root:
+            project_root = self.project_root_dir(directory=directory)
+
+        pwebsm_file = self.get_pwebsm_file_name(env=env)
+        pwesm_file_path = FileUtil.join_path(project_root, pwebsm_file)
+        if not FileUtil.is_exist(pwesm_file_path):
+            raise Exception("PWeb source management file not found")
+        self.process_pwebsm_file(project_root=project_root, file_path=pwesm_file_path)
+
+    def _run_script(self, project_root, command_root, scrips: list):
+        if not scrips or not project_root or not command_root:
+            return False
+        for command in scrips:
+            if not command:
+                continue
+            self.run_command_with_venv(command_root=command_root, project_root=project_root, command=command)
+
+    def _run_start_script(self, project_root, pweb_sm: PWebSM):
+        if pweb_sm and pweb_sm.start_script:
+            Console.info("Running start script")
+            self._run_script(project_root=project_root, command_root=project_root, scrips=pweb_sm.start_script)
+
+    def _run_end_script(self, project_root, pweb_sm: PWebSM):
+        if pweb_sm and pweb_sm.end_script:
+            Console.info("Running end script")
+            self._run_script(project_root=project_root, command_root=project_root, scrips=pweb_sm.end_script)
+
+    def _process_dependencies(self, project_root, pweb_sm: PWebSM):
+        pass
+
+    def process_pwebsm_file(self, project_root, file_path: str):
+        pweb_sm: PWebSM = self.yaml_converter.read_yaml_object_from_file(file_path_with_name=file_path, od_object=PWebSM())
+        if not pweb_sm:
+            raise Exception("Invalid descriptor file for PWeb Source Management")
+        self._run_start_script(project_root=project_root, pweb_sm=pweb_sm)
+        self._process_dependencies(project_root=project_root, pweb_sm=pweb_sm)
+        self._run_end_script(project_root=project_root, pweb_sm=pweb_sm)
+

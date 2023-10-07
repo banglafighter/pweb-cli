@@ -8,7 +8,7 @@ class PWebSMRepo(ODBase):
     branch: str
     script: list[str]
 
-    def __init__(self, url: str, branch: str = None, script: list = None):
+    def __init__(self, url: str = None, branch: str = None, script: list = None):
         self.url = url
         self.branch = branch
         self.script = script
@@ -35,7 +35,7 @@ class PWebSMDirectory(ODBase):
     name: str
     script: list[str]
 
-    def __init__(self, name: str, script: list = None):
+    def __init__(self, name: str = None, script: list = None):
         self.name = name
         self.script = script
 
@@ -62,7 +62,7 @@ class PWebSMDependency(ODBase):
     module: PWebSMModule
     clone: PWebSMClone
 
-    def __init__(self, name: str, dir: str, status: str = ActionStatus.active):
+    def __init__(self, name: str = None, dir: str = None, status: str = ActionStatus.active):
         self.name = name
         self.dir = dir
         self.status = status
@@ -74,7 +74,7 @@ class PWebSM(ODBase):
     dependencies: list[PWebSMDependency] = None
     end_script: list[str]
 
-    def __init__(self, name: str):
+    def __init__(self, name: str = None):
         self.name = name
 
     def add_dependency(self, dependency: PWebSMDependency):

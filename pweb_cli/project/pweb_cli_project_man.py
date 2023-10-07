@@ -31,6 +31,7 @@ class PWebCLIProjectMan:
         self.pweb_source_man.create_virtual_env(project_root=project_root)
 
         Console.success("Resolving project dependencies")
+        self.pweb_source_man.run_pwebsm(project_root=project_root)
 
         print("\n")
         Console.success("----------------------------------------")
