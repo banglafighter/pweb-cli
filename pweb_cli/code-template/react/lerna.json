@@ -1,0 +1,8 @@
+{
+  "packages": [
+    "dependencies/ui/*",
+    "dependencies/*/ui",
+    "application/*/ui"
+  ],
+  "version": "1.0.0"
+}

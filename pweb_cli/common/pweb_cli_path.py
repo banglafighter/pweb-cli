@@ -20,3 +20,7 @@ class PWebCLIPath:
     @staticmethod
     def get_template_common_dir():
         return os.path.join(PWebCLIPath.get_template_dir(), "common")
+
+    @staticmethod
+    def get_template_react_dir():
+        return os.path.join(PWebCLIPath.get_template_dir(), "react")

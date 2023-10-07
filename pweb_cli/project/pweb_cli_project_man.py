@@ -25,7 +25,11 @@ class PWebCLIProjectMan:
         Console.success("Creating project required files")
         self.pweb_source_man.process_pweb_files(project_root=project_root, name=name, port=port)
 
+        self.pweb_source_man.process_react_files(project_root=project_root, name=name, ui_type=ui_type)
+
         Console.success("Creating virtual environment for the project")
+        self.pweb_source_man.create_virtual_env(project_root=project_root)
+
         Console.success("Resolving project dependencies")
 
         print("\n")
