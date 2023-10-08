@@ -62,6 +62,7 @@ class PWebSourceMan:
         if not name:
             return name
         name = name.lower()
+        name = name.strip()
         name = StringUtil.find_and_replace_with(name, " ", replace)
         return StringUtil.remove_special_character(name)
 
@@ -140,6 +141,7 @@ class PWebSourceMan:
             self._run_script(project_root=project_root, command_root=project_root, scrips=pweb_sm.start_script)
 
     def _run_end_script(self, project_root, pweb_sm: PWebSM):
+        pweb_sm.add_end_script(f"{self.get_python()} pweb_app.py develop")
         if pweb_sm and pweb_sm.end_script:
             Console.info("Running end script")
             self._run_script(project_root=project_root, command_root=project_root, scrips=pweb_sm.end_script)

@@ -79,6 +79,11 @@ class PWebSM(ODBase):
     def __init__(self, name: str = None):
         self.name = name
 
+    def add_end_script(self, command):
+        if not self.end_script:
+            self.end_script = []
+        self.end_script.append(command)
+
     def add_dependency(self, dependency: PWebSMDependency):
         if not self.dependencies:
             self.dependencies = []
