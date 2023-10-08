@@ -11,7 +11,7 @@ env = os.environ.get('source')
 def get_dependencies():
     dependency = ["virtualenv", "GitPython==3.1.37"]
 
-    if env and env == "dev":
+    if env and env == "code":
         return dependency
 
     return dependency + ["ppy-common", "ppy-file-text", "ppy-jsonyml"]
