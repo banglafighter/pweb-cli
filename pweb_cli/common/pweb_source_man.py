@@ -40,7 +40,7 @@ class PWebSourceMan:
         if sys.platform == "win32":
             active = FileUtil.join_path(project_root, PWebCLINamed.VENV_DIR_NAME, "Scripts", "activate")
         command = active + " && " + command
-        Console.run(command, command_root, env=dict(os.environ), **env_variable)
+        Console.run(command, command_root, env=dict(os.environ, **env_variable))
 
     def create_pwebsm_yml(self, project_root, name, ui_type):
         pwebsm = PWebCLIInitData.get_default_pwebsm(name=name, ui_type=ui_type)
@@ -178,9 +178,11 @@ class PWebSourceMan:
 
             clone_dir = FileUtil.join_path(project_root, base_dir)
             FileUtil.create_directories(clone_dir)
+            clone_project_dir = FileUtil.join_path(clone_dir, name)
 
-            Console.info(f"Clone Project : {repo.url}")
-            self.pweb_git_repo.clone_or_pull_project(path=clone_dir, url=repo.url, branch=branch)
+            Console.info(f"Cloning Project : {repo.url}")
+            Console.cyan(f"Cloning at : {clone_dir}", enable_staring=True)
+            self.pweb_git_repo.clone_or_pull_project(path=clone_project_dir, url=repo.url, branch=branch)
             command_root = FileUtil.join_path(clone_dir, name)
             if not FileUtil.is_exist(command_root) or not scripts:
                 continue
