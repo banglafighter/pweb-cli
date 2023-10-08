@@ -1,8 +1,8 @@
 from ppy_common import click, Console
 from pweb_cli.common.pweb_cli_named import OperatingSystem, ProdAction
-from pweb_cli.prod.pweb_server_cli import PWebServerCLI
+from pweb_cli.prod.pweb_cli_server_man import PWebCLIServerMan
 
-pweb_server_cli = PWebServerCLI()
+pweb_cli_server_man = PWebCLIServerMan()
 
 
 @click.group(name="prod", help="PWeb Deployment Management CLI")
@@ -27,7 +27,7 @@ def create_nignx_conf():
 @click.option("--action", "-a", help="Enter action", required=True, show_default=True, default=ProdAction.generate, type=click.Choice([ProdAction.generate]))
 def generate_config(name, domain, os, action):
     try:
-        pweb_server_cli.generate(name=name, domain=domain, operating_system=os, action=action)
+        pweb_cli_server_man.generate(name=name, domain=domain, operating_system=os, action=action)
     except Exception as e:
         Console.error(str(e))
 

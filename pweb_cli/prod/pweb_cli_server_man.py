@@ -4,7 +4,7 @@ from pweb_cli.common.pweb_cli_named import ProdAction, OperatingSystem
 from pweb_cli.common.pweb_cli_path import PWebCLIPath
 
 
-class PWebServerCLI:
+class PWebCLIServerMan:
 
     def create_file(self, src_file, dst_file, find_replace: list):
         FileUtil.copy(src_file, dst_file)

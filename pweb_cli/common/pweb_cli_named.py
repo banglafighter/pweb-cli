@@ -24,3 +24,9 @@ class ProdAction:
 
 class OperatingSystem:
     centos = "centos"
+
+
+class AppRendering:
+    ssr = "ssr"
+    api = "api"
+    both = "both"

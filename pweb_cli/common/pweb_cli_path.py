@@ -29,12 +29,21 @@ class PWebCLIPath:
             raise Exception("Please run the command inside the project root")
 
     @staticmethod
+    def exception_on_exist_file(path: str, message: str = "Already exist"):
+        if FileUtil.is_exist(path):
+            raise Exception(message)
+
+    @staticmethod
     def get_template_dir():
         return os.path.join(PWebCLIPath.get_root_dir(), "code-template")
 
     @staticmethod
     def get_template_pweb_dir():
         return os.path.join(PWebCLIPath.get_template_dir(), "pweb")
+
+    @staticmethod
+    def get_template_pweb_module_dir():
+        return os.path.join(PWebCLIPath.get_template_pweb_dir(), "module")
 
     @staticmethod
     def get_template_common_dir():
