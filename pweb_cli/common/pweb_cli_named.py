@@ -16,3 +16,11 @@ class UIType:
     react = "react"
     ssr = "ssr"
     api = "api"
+
+
+class ProdAction:
+    generate = "generate"
+
+
+class OperatingSystem:
+    centos = "centos"

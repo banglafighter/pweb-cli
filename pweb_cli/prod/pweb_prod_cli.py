@@ -1,4 +1,8 @@
-from ppy_common import click
+from ppy_common import click, Console
+from pweb_cli.common.pweb_cli_named import OperatingSystem, ProdAction
+from pweb_cli.prod.pweb_server_cli import PWebServerCLI
+
+pweb_server_cli = PWebServerCLI()
 
 
 @click.group(name="prod", help="PWeb Deployment Management CLI")
@@ -17,8 +21,15 @@ def create_nignx_conf():
 
 
 @click.command(name="generate-config", help="Generate required configuration files (Nginx, Service)")
-def generate_config():
-    pass
+@click.option("--name", "-n", help="Enter app name", required=True, show_default=True)
+@click.option("--domain", "-d", help="Enter domain or subdomain name", required=True, show_default=True)
+@click.option("--os", "-os", help="Enter os name", required=True, show_default=True, default=OperatingSystem.centos, type=click.Choice([OperatingSystem.centos]))
+@click.option("--action", "-a", help="Enter action", required=True, show_default=True, default=ProdAction.generate, type=click.Choice([ProdAction.generate]))
+def generate_config(name, domain, os, action):
+    try:
+        pweb_server_cli.generate(name=name, domain=domain, operating_system=os, action=action)
+    except Exception as e:
+        Console.error(str(e))
 
 
 pweb_prod_cli.add_command(create_service)

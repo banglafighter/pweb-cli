@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 WorkingDirectory=___PROJECT_ROOT___
-ExecStart=___PROJECT_ROOT___/venv/bin/gunicorn --workers 3 --bind ___UNIX_SOCK___ pweb_cli:wsgi --log-file ___PROJECT_ROOT___/pweb-app.log
+ExecStart=___PROJECT_ROOT___/venv/bin/gunicorn --workers 3 --bind ___UNIX_SOCK___ pweb_app:wsgi --log-file ___PROJECT_ROOT___/pweb-app.log
 
 [Install]
 WantedBy=multi-user.target

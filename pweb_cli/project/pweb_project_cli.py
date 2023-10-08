@@ -1,5 +1,6 @@
 from ppy_common import click, Console
 from pweb_cli.common.pweb_cli_named import UIType
+from pweb_cli.common.pweb_cli_path import PWebCLIPath
 from pweb_cli.project.pweb_cli_project_man import PWebCLIProjectMan
 
 pweb_cli_project_man = PWebCLIProjectMan()
@@ -17,6 +18,7 @@ def pweb_project_cli():
 @click.option("--environment", "-e", help="Enter project environment name", default=None, show_default=True)
 def setup(repo, directory, branch, environment):
     try:
+        PWebCLIPath.am_i_in_project_root()
         pweb_cli_project_man.setup(repo=repo, branch=branch, directory=directory, env=environment)
     except Exception as e:
         print("\n\n")
@@ -27,6 +29,7 @@ def setup(repo, directory, branch, environment):
 @click.option("--environment", "-e", help="Enter project environment name", default=None, show_default=True)
 def update(environment):
     try:
+        PWebCLIPath.am_i_in_project_root()
         pweb_cli_project_man.update(env=environment)
     except Exception as e:
         print("\n\n")

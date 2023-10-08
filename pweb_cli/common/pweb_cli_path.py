@@ -1,5 +1,7 @@
 import os
 
+from ppy_file_text import FileUtil
+
 
 class PWebCLIPath:
 
@@ -8,6 +10,23 @@ class PWebCLIPath:
     @staticmethod
     def get_root_dir():
         return os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+    @staticmethod
+    def current_directory():
+        return os.getcwd()
+
+    @staticmethod
+    def get_application_dir():
+        return os.path.join(PWebCLIPath.current_directory(), PWebCLIPath.application_dir_name)
+
+    @staticmethod
+    def get_module_config_dir():
+        return os.path.join(PWebCLIPath.get_application_dir(), "config")
+
+    @staticmethod
+    def am_i_in_project_root():
+        if not FileUtil.is_exist(PWebCLIPath.get_module_config_dir()):
+            raise Exception("Please run the command inside the project root")
 
     @staticmethod
     def get_template_dir():
@@ -24,3 +43,11 @@ class PWebCLIPath:
     @staticmethod
     def get_template_react_dir():
         return os.path.join(PWebCLIPath.get_template_dir(), "react")
+
+    @staticmethod
+    def get_template_server_dir():
+        return os.path.join(PWebCLIPath.get_template_dir(), "server")
+
+    @staticmethod
+    def get_template_server_centos_dir():
+        return os.path.join(PWebCLIPath.get_template_server_dir(), "centos")
