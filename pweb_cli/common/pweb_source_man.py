@@ -13,7 +13,7 @@ from pweb_cli.data.pweb_cli_pwebsm import PWebSM, PWebSMModule, PWebSMClone
 class PWebSourceMan:
     yaml_converter = YamlConverter()
     pweb_git_repo = PWebGitRepo()
-    pwebsm_file_name = "pwebsm.yml"
+    pwebsm_file_name = "pwebsm"
     pwebsm_file_extension = ".yml"
 
     def project_root_dir(self, directory=None):
@@ -57,16 +57,25 @@ class PWebSourceMan:
         FileUtil.copy(source_file_dir, destination_file_dir)
         return destination_file_dir
 
+    @staticmethod
+    def get_system_readable_name(name: str, replace: str = "_"):
+        if not name:
+            return name
+        name = name.lower()
+        name = StringUtil.find_and_replace_with(name, " ", replace)
+        return StringUtil.remove_special_character(name)
+
     def process_pweb_files(self, project_root, name, port):
-        system_name = StringUtil.system_readable(name)
-        system_hyphen_name = StringUtil.find_and_replace_with(system_name, "_", "-")
+        system_hyphen_name = PWebSourceMan.get_system_readable_name(name, "-")
 
         for file_name in [".gitignore", "README.md"]:
             self.copy_file(PWebCLIPath.get_template_common_dir(), project_root, file_name)
 
+        pweb_app_name = StringUtil.find_and_replace_with(name, " ", "")
+        pweb_app_name = StringUtil.remove_special_character(pweb_app_name)
         destination_file = self.copy_file(PWebCLIPath.get_template_pweb_dir(), project_root, "pweb_app.py")
         TextFileMan.find_replace_text_content(destination_file, [
-            {"find": "___APP_NAME__", "replace": system_name}
+            {"find": "___APP_NAME__", "replace": pweb_app_name}
         ])
 
         destination_file = self.copy_file(PWebCLIPath.get_template_pweb_dir(), project_root, "setup.py")
@@ -87,8 +96,7 @@ class PWebSourceMan:
         if ui_type != UIType.react:
             return
 
-        system_name = StringUtil.system_readable(name)
-        system_hyphen_name = StringUtil.find_and_replace_with(system_name, "_", "-")
+        system_hyphen_name = PWebSourceMan.get_system_readable_name(name, "-")
 
         Console.success("Processing React Config")
         for file_name in ["lerna.json", "package.json"]:

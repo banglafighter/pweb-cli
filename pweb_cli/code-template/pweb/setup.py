@@ -19,7 +19,7 @@ def get_dependencies():
     if env and env == "dev":
         return dependency
 
-    return dependency + ["pwebb"]
+    return dependency + ["pwebf"]
 
 
 setup(
