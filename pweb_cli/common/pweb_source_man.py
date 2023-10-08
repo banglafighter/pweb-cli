@@ -4,7 +4,7 @@ from ppy_common import Console
 from ppy_file_text import FileUtil, StringUtil, TextFileMan
 from ppy_jsonyml import YamlConverter
 from pweb_cli.common.pweb_cli_init_data import PWebCLIInitData
-from pweb_cli.common.pweb_cli_named import PWebCLINamed, UIType, ActionStatus
+from pweb_cli.common.pweb_cli_named import PWebCLINamed, UIType, ActionStatus, SourceMode
 from pweb_cli.common.pweb_cli_path import PWebCLIPath
 from pweb_cli.common.pweb_git_repo import PWebGitRepo
 from pweb_cli.data.pweb_cli_pwebsm import PWebSM, PWebSMModule, PWebSMClone
@@ -35,12 +35,12 @@ class PWebSourceMan:
             env_postfix = "-" + env
         return self.pwebsm_file_name + env_postfix + self.pwebsm_file_extension
 
-    def run_command_with_venv(self, command_root, project_root, command):
+    def run_command_with_venv(self, command_root, project_root, command, env_variable: dict = {}):
         active = "source " + FileUtil.join_path(project_root, PWebCLINamed.VENV_DIR_NAME, "bin", "activate")
         if sys.platform == "win32":
             active = FileUtil.join_path(project_root, PWebCLINamed.VENV_DIR_NAME, "Scripts", "activate")
         command = active + " && " + command
-        Console.run(command, command_root, env=dict(os.environ))
+        Console.run(command, command_root, env=dict(os.environ), **env_variable)
 
     def create_pwebsm_yml(self, project_root, name, ui_type):
         pwebsm = PWebCLIInitData.get_default_pwebsm(name=name, ui_type=ui_type)
@@ -126,13 +126,13 @@ class PWebSourceMan:
             raise Exception("PWeb source management file not found")
         self.process_pwebsm_file(project_root=project_root, file_path=pwesm_file_path)
 
-    def _run_script(self, project_root, command_root, scrips: list):
+    def _run_script(self, project_root, command_root, scrips: list, source_mode: str = SourceMode.binary):
         if not scrips or not project_root or not command_root:
             return False
         for command in scrips:
             if not command:
                 continue
-            self.run_command_with_venv(command_root=command_root, project_root=project_root, command=command)
+            self.run_command_with_venv(command_root=command_root, project_root=project_root, command=command, env_variable={"source": source_mode})
 
     def _run_start_script(self, project_root, pweb_sm: PWebSM):
         if pweb_sm and pweb_sm.start_script:
@@ -151,6 +151,9 @@ class PWebSourceMan:
         Console.info(f"Starting clone work")
         parent_script = clone.script
         parent_branch = clone.branch
+        source_mode = SourceMode.binary
+        if clone.source:
+            source_mode = clone.source
 
         for repo in clone.repo:
             if not repo.url:
@@ -170,6 +173,9 @@ class PWebSourceMan:
             elif parent_branch:
                 branch = parent_branch
 
+            if repo.source:
+                source_mode = repo.source
+
             clone_dir = FileUtil.join_path(project_root, base_dir)
             FileUtil.create_directories(clone_dir)
 
@@ -180,7 +186,7 @@ class PWebSourceMan:
                 continue
 
             Console.info(f"Running script for {name}")
-            self._run_script(project_root=project_root, command_root=command_root, scrips=scripts)
+            self._run_script(project_root=project_root, command_root=command_root, scrips=scripts, source_mode=source_mode)
 
     def _process_module(self, project_root, module: PWebSMModule, base_dir: str):
         if not module.status or module.status != ActionStatus.active or not module.subdir:
@@ -204,15 +210,18 @@ class PWebSourceMan:
             return
 
         for dependency in pweb_sm.dependencies:
+            try:
+                if not dependency.status or dependency.status != ActionStatus.active:
+                    continue
 
-            if not dependency.status or dependency.status != ActionStatus.active:
-                continue
+                if dependency.clone:
+                    self._process_clone(project_root=project_root, clone=dependency.clone, base_dir=dependency.dir)
 
-            if dependency.clone:
-                self._process_clone(project_root=project_root, clone=dependency.clone, base_dir=dependency.dir)
-
-            if dependency.module:
-                self._process_module(project_root=project_root, module=dependency.module, base_dir=dependency.dir)
+                if dependency.module:
+                    self._process_module(project_root=project_root, module=dependency.module, base_dir=dependency.dir)
+            except Exception as e:
+                print("\n\n")
+                Console.error(str(e))
 
     def process_pwebsm_file(self, project_root, file_path: str):
         pweb_sm: PWebSM = self.yaml_converter.read_yaml_object_from_file(file_path_with_name=file_path, od_object=PWebSM())

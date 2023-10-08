@@ -21,12 +21,14 @@ dependencies:
     clone:
       branch: "dev"
       status: "active"
+      source: code # binary
       script:
         - python setup.py develop
       repo:
         - url: "https://example.com/example.git"
           name: "project-name"
           branch: "pre-release"
+          source: code # binary
           script:
             - python --version
 

@@ -22,22 +22,26 @@ class PWebGitRepo:
 
     @staticmethod
     def clone_or_pull_project(path, url, branch):
-        repo_name = PWebGitRepo.get_repo_name_from_url(url)
-        if not repo_name:
-            raise Exception("Invalid repo")
-        if not FileUtil.is_exist(path):
-            Console.success("Cloning project: " + repo_name + ", Branch: " + branch)
-            Repo.clone_from(url, branch=branch, to_path=path)
-        else:
-            Console.success(repo_name + " Taking pull...")
-            repo = Repo(path)
+        try:
+            repo_name = PWebGitRepo.get_repo_name_from_url(url)
+            if not repo_name:
+                raise Exception("Invalid repo")
+            if not FileUtil.is_exist(path):
+                Console.success("Cloning project: " + repo_name + ", Branch: " + branch)
+                Repo.clone_from(url, branch=branch, to_path=path)
+            else:
+                Console.success(repo_name + " Taking pull...")
+                repo = Repo(path)
 
-            repo.remotes.origin.fetch()
-            local_branch_name = repo.active_branch.name
+                repo.remotes.origin.fetch()
+                local_branch_name = repo.active_branch.name
 
-            Console.info("Local branch name : " + local_branch_name + ", Checkout branch: " + str(branch))
+                Console.info("Local branch name : " + local_branch_name + ", Checkout branch: " + str(branch))
 
-            if local_branch_name != branch:
-                repo.git.checkout(branch)
-            origin = repo.remotes.origin
-            origin.pull()
+                if local_branch_name != branch:
+                    repo.git.checkout(branch)
+                origin = repo.remotes.origin
+                origin.pull()
+        except Exception as e:
+            print("\n\n")
+            Console.error(f"Git Exception {str(e)}")

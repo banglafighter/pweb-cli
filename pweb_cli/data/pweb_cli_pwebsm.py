@@ -4,6 +4,7 @@ from pweb_cli.common.pweb_cli_named import ActionStatus
 
 class PWebSMRepo(ODBase):
     url: str
+    source: str
     name: str = None
     branch: str
     script: list[str]
@@ -17,6 +18,7 @@ class PWebSMRepo(ODBase):
 class PWebSMClone(ODBase):
     branch: str
     status: str
+    source: str
     script: list[str]
     repo: list[PWebSMRepo] = None
 

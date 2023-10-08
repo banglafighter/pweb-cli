@@ -7,6 +7,11 @@ class ActionStatus:
     inactive = "inactive"
 
 
+class SourceMode:
+    code = "code"
+    binary = "binary"
+
+
 class UIType:
     react = "react"
     ssr = "ssr"
