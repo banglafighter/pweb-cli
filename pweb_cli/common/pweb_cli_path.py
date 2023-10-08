@@ -30,7 +30,15 @@ class PWebCLIPath:
 
     @staticmethod
     def exception_on_exist_file(path: str, message: str = "Already exist"):
-        if FileUtil.is_exist(path):
+        PWebCLIPath.exception_on_file_state(path, message=message, is_exist=True)
+
+    @staticmethod
+    def exception_on_not_exist_file(path: str, message: str = "Not exist"):
+        PWebCLIPath.exception_on_file_state(path, message=message, is_exist=False)
+
+    @staticmethod
+    def exception_on_file_state(path: str, message: str, is_exist: bool = True):
+        if FileUtil.is_exist(path) == is_exist:
             raise Exception(message)
 
     @staticmethod
