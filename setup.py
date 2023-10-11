@@ -19,7 +19,7 @@ def get_dependencies():
 
 setup(
     name='pweb-cli',
-    version='0.0.1',
+    version='0.0.2',
     url='https://github.com/problemfighter/pweb-cli',
     license='Apache 2.0',
     author='Problem Fighter',
