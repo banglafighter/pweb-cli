@@ -19,7 +19,7 @@ def get_dependencies():
 
 setup(
     name='pweb-cli',
-    version='0.0.2',
+    version='0.0.4',
     url='https://github.com/problemfighter/pweb-cli',
     license='Apache 2.0',
     author='Problem Fighter',
@@ -28,6 +28,7 @@ setup(
     long_description=README,
     long_description_content_type='text/markdown',
     packages=find_packages(),
+    package_data={'pweb_cli': ['code-template/**/*', 'code-template/common/.gitignore']},
     zip_safe=False,
     include_package_data=True,
     platforms='any',
