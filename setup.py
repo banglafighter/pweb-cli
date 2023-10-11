@@ -28,7 +28,12 @@ setup(
     long_description=README,
     long_description_content_type='text/markdown',
     packages=find_packages(),
-    package_data={'pweb_cli': ['code-template/**/*', 'code-template/common/.gitignore', 'code-template/pweb/module/.gitignore']},
+    package_data={'pweb_cli': [
+        'code-template/**/*',
+        'code-template/common/.gitignore',
+        'code-template/pweb/module/.gitignore',
+        'code-template/pweb/application/boot/.gitignore'
+    ]},
     zip_safe=False,
     include_package_data=True,
     platforms='any',

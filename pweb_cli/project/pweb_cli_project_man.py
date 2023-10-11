@@ -42,7 +42,7 @@ class PWebCLIProjectMan:
         print("\n")
         Console.info("Go to project directory: " + directory)
         Console.info("First active the virtual environment")
-        Console.info("Run Command: pweb_app.py")
+        Console.info("Run Command: python pweb_app.py")
 
     def setup(self, repo, directory, branch, env):
         Console.success(f"Starting setup...")

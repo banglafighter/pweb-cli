@@ -87,7 +87,8 @@ class PWebSourceMan:
         for file_name in [PWebCLIPath.application_dir_name, "env.yml"]:
             self.copy_file(PWebCLIPath.get_template_pweb_dir(), project_root, file_name)
 
-        app_config_file = FileUtil.join_path(project_root, PWebCLIPath.application_dir_name, "config", "app_config.py")
+        application_path = FileUtil.join_path(project_root, PWebCLIPath.application_dir_name)
+        app_config_file = FileUtil.join_path(application_path, "config", "app_config.py")
         TextFileMan.find_replace_text_content(app_config_file, [
             {"find": "___APP_NAME___", "replace": name},
             {"find": "___APP_PORT___", "replace": str(port)},
