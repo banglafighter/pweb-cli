@@ -12,13 +12,15 @@ Install and update using [pip](https://pip.pypa.io/en/stable/getting-started/):
 pip install -U pweb-cli
 ```
 
-**Please find [the Documentation]() with example from [hmtmcse.com]()**
+**Please find [the Documentation]() with example from [hmtmcse.com/pwebb]()**
 
 
 <br/><br/><br/>
 ## Donate
 [Problem Fighter](https://www.problemfighter.com/) develops and supports PWebCLI and the libraries it uses. In order to grow
 the community of contributors and users, and allow the maintainers to devote more time to the projects.
+
+<a target="_blank" href="https://www.buymeacoffee.com/problemfighter" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me Us Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 
 
 <br/><br/><br/>
