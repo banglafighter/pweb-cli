@@ -40,9 +40,11 @@ class PWebCLIProjectMan:
         Console.success("----------------------------------------")
 
         print("\n")
-        Console.info("Go to project directory: " + directory)
-        Console.info("First active the virtual environment")
-        Console.info("Run Command: python pweb_app.py")
+        Console.success("Run project by following commands", enable_staring=False)
+        Console.red("---------------------------------", bold=True, enable_staring=False)
+        Console.yellow(f"cd {directory}", bold=True, enable_staring=False)
+        Console.yellow(f"{self.pweb_source_man.venv_activation_command()}", bold=True, enable_staring=False)
+        Console.yellow("python pweb_app.py", bold=True, enable_staring=False)
 
     def setup(self, repo, directory, branch, env):
         Console.success(f"Starting setup...")

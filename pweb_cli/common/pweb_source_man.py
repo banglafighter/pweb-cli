@@ -35,10 +35,21 @@ class PWebSourceMan:
             env_postfix = "-" + env
         return self.pwebsm_file_name + env_postfix + self.pwebsm_file_extension
 
-    def run_command_with_venv(self, command_root, project_root, command, env_variable: dict = {}):
-        active = "source " + FileUtil.join_path(project_root, PWebCLINamed.VENV_DIR_NAME, "bin", "activate")
+    def venv_activation_command(self, project_root=None):
+        bin_directory = "bin"
+        command_prefix = "source "
         if sys.platform == "win32":
-            active = FileUtil.join_path(project_root, PWebCLINamed.VENV_DIR_NAME, "Scripts", "activate")
+            bin_directory = "Scripts"
+            command_prefix = ""
+
+        activation_path = FileUtil.join_path(PWebCLINamed.VENV_DIR_NAME, bin_directory, "activate")
+        if project_root:
+            activation_path = FileUtil.join_path(project_root, activation_path)
+
+        return f"{command_prefix}{activation_path}"
+
+    def run_command_with_venv(self, command_root, project_root, command, env_variable: dict = {}):
+        active = self.venv_activation_command(project_root=project_root)
         command = active + " && " + command
         Console.run(command, command_root, env=dict(os.environ, **env_variable))
 
