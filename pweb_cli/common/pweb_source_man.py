@@ -125,6 +125,18 @@ class PWebSourceMan:
     def get_python(self):
         return sys.executable
 
+    def install_upgrade_required_package(self, project_root):
+        packages = [
+            {
+                "name": "Installing setup tools",
+                "command": f"{self.get_python()} -m pip install setuptools"
+            }
+        ]
+        for package in packages:
+            name = package["name"]
+            Console.info(f"Installing Package Called: {name}")
+            Console.run(package["command"], project_root)
+
     def create_virtual_env(self, project_root):
         if not FileUtil.is_exist(FileUtil.join_path(project_root, PWebCLINamed.VENV_DIR_NAME)):
             Console.run(self.get_python() + " -m venv " + PWebCLINamed.VENV_DIR_NAME, project_root)

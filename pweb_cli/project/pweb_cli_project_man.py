@@ -19,6 +19,9 @@ class PWebCLIProjectMan:
         directory = self.get_directory_name(name=directory)
         project_root = self.pweb_source_man.get_project_root_dir(directory=directory)
 
+        Console.success("Installing Required Packages")
+        self.pweb_source_man.install_upgrade_required_package(project_root=project_root)
+
         Console.success("Creating source management descriptor")
         self.pweb_source_man.create_pwebsm_yml(project_root=project_root, name=name, ui_type=ui_type)
 
