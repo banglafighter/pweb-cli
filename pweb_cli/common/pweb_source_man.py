@@ -273,6 +273,10 @@ class PWebSourceMan:
         if not directory:
             directory = self.pweb_git_repo.get_repo_name_from_url(repo)
         project_root = self.project_root_dir(directory=directory)
+
+        Console.success("Installing Required Packages")
+        self.install_upgrade_required_package(project_root=project_root)
+
         if FileUtil.is_exist(project_root):
             raise Exception("{} Path already exist.".format(str(project_root)))
         self._setup_or_update(project_root=project_root, url=repo, branch=branch, env=env)
