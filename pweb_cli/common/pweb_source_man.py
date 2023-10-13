@@ -125,17 +125,24 @@ class PWebSourceMan:
     def get_python(self):
         return sys.executable
 
-    def install_upgrade_required_package(self, project_root):
+    def install_upgrade_required_package(self, project_root, in_venv: bool = False, python=None):
+        if not python:
+            python = self.get_python()
         packages = [
             {
-                "name": "Installing setup tools",
-                "command": f"{self.get_python()} -m pip install setuptools"
+                "name": "setuptools",
+                "command": f"{python} -m pip install setuptools"
             }
         ]
+
         for package in packages:
             name = package["name"]
+            command = package["command"]
             Console.info(f"Installing Package Called: {name}")
-            Console.run(package["command"], project_root)
+            if in_venv:
+                self.run_command_with_venv(command=command, project_root=project_root, command_root=project_root)
+            else:
+                Console.run(command, project_root)
 
     def create_virtual_env(self, project_root):
         if not FileUtil.is_exist(FileUtil.join_path(project_root, PWebCLINamed.VENV_DIR_NAME)):
@@ -255,6 +262,7 @@ class PWebSourceMan:
         pweb_sm: PWebSM = self.yaml_converter.read_yaml_object_from_file(file_path_with_name=file_path, od_object=PWebSM())
         if not pweb_sm:
             raise Exception("Invalid descriptor file for PWeb Source Management")
+        self.install_upgrade_required_package(project_root=project_root, python="python", in_venv=True)
         self._run_start_script(project_root=project_root, pweb_sm=pweb_sm)
         self._process_dependencies(project_root=project_root, pweb_sm=pweb_sm)
         self._run_end_script(project_root=project_root, pweb_sm=pweb_sm)
