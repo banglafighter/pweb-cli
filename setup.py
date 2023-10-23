@@ -20,10 +20,10 @@ def get_dependencies():
 setup(
     name='pweb-cli',
     version='0.0.13',
-    url='https://github.com/problemfighter/pweb-cli',
+    url='https://github.com/banglafighter/pweb-cli',
     license='Apache 2.0',
-    author='Problem Fighter',
-    author_email='problemfighter.com@gmail.com',
+    author='Bangla Fighter',
+    author_email='banglafighter.com@gmail.com',
     description='Command line interface for PWeb application, which allow to make PWeb work easy.',
     long_description=README,
     long_description_content_type='text/markdown',
