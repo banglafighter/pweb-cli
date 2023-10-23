@@ -1,5 +1,4 @@
 import os
-
 from ppy_file_text import FileUtil
 
 
@@ -48,6 +47,10 @@ class PWebCLIPath:
     @staticmethod
     def get_template_pweb_dir():
         return os.path.join(PWebCLIPath.get_template_dir(), "pweb")
+
+    @staticmethod
+    def get_template_pweb_app_boot_dir():
+        return os.path.join(PWebCLIPath.get_template_pweb_dir(), PWebCLIPath.application_dir_name, "boot")
 
     @staticmethod
     def get_template_pweb_module_dir():

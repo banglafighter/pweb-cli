@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100" >
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PWeb Boot</title>
+    <link rel="stylesheet" href="{{ url_for('boot-static.static', filename='css/lib/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('boot-static.static', filename='css/style.css') }}">
+</head>
+<body class="d-flex h-100 text-center text-bg-dark">
+
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <header class="mb-auto">
+        <div>
+            <h3 class="float-md-start mb-0">PWeb</h3>
+            <nav class="nav nav-masthead justify-content-center float-md-end">
+                <a class="nav-link fw-bold py-1 px-0" target="_blank" href="https://github.com/banglafighter/pweb">GitHub</a>
+                <a class="nav-link fw-bold py-1 px-0" href="https://www.buymeacoffee.com/banglafighter">Buy us coffee</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="px-3">
+        <h1>Python Web Boot</h1>
+        <p class="lead">
+            Concentrate on codes, not the Framework.
+        </p>
+        <p class="lead">
+            <a href="https://www.hmtmcse.com/pweb" target="_blank" class="btn btn-lg btn-light fw-bold border-white bg-white">Tutorial</a>
+        </p>
+    </main>
+
+    <footer class="mt-auto text-white-50">
+        <p>Maintained by <a target="_blank" href="https://www.banglafighter.com/" class="text-white link-underline link-underline-opacity-0">Bangla Fighter</a></p>
+    </footer>
+</div>
+
+<script src="{{ url_for('boot-static.static', filename='js/lib/bootstrap.bundle.min.js') }}"></script>
+</body>
+</html>

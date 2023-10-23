@@ -19,11 +19,11 @@ def get_dependencies():
     if env and env == "code":
         return dependency
 
-    return dependency + ["pwebb"]
+    return dependency + []
 
 
 setup(
-    name='___APP_NAME__',
+    name='boot',
     version='1.0.0',
     long_description=long_description,
     packages=find_packages(),

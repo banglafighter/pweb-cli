@@ -19,6 +19,9 @@ class PWebCLIProjectMan:
         directory = self.get_directory_name(name=directory)
         project_root = self.pweb_source_man.get_project_root_dir(directory=directory)
 
+        Console.success("Installing Required Packages")
+        self.pweb_source_man.install_upgrade_required_package(project_root=project_root)
+
         Console.success("Creating source management descriptor")
         self.pweb_source_man.create_pwebsm_yml(project_root=project_root, name=name, ui_type=ui_type)
 
@@ -40,9 +43,11 @@ class PWebCLIProjectMan:
         Console.success("----------------------------------------")
 
         print("\n")
-        Console.info("Go to project directory: " + directory)
-        Console.info("First active the virtual environment")
-        Console.info("Run Command: pweb_app.py")
+        Console.success("Run project by following commands", enable_staring=False)
+        Console.red("---------------------------------", bold=True, enable_staring=False)
+        Console.yellow(f"cd {directory}", bold=True, enable_staring=False)
+        Console.yellow(f"{self.pweb_source_man.venv_activation_command()}", bold=True, enable_staring=False)
+        Console.yellow("python pweb_app.py", bold=True, enable_staring=False)
 
     def setup(self, repo, directory, branch, env):
         Console.success(f"Starting setup...")

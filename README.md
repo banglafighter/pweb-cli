@@ -12,13 +12,15 @@ Install and update using [pip](https://pip.pypa.io/en/stable/getting-started/):
 pip install -U pweb-cli
 ```
 
-**Please find [the Documentation]() with example from [hmtmcse.com]()**
+**Please find [the Documentation]() with example from [hmtmcse.com/pwebb]()**
 
 
 <br/><br/><br/>
 ## Donate
-[Problem Fighter](https://www.problemfighter.com/) develops and supports PWebCLI and the libraries it uses. In order to grow
+[Bangla Fighter](https://www.banglafighter.com/) develops and supports PWebCLI and the libraries it uses. In order to grow
 the community of contributors and users, and allow the maintainers to devote more time to the projects.
+
+<a target="_blank" href="https://www.buymeacoffee.com/banglafighter" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me Us Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 
 
 <br/><br/><br/>
@@ -28,9 +30,9 @@ For guidance on setting up a development environment and how to make a contribut
 
 <br/><br/><br/>
 ## Links
-* **Changes :** [https://opensource.problemfighter.org/pweb/pweb-cli](https://opensource.problemfighter.org/pweb/pweb-cli)
+* **Changes :** [https://opensource.banglafighter.org/pweb/pweb-cli](https://opensource.banglafighter.org/pweb/pweb-cli)
 * **PyPI Releases :** [https://pypi.org/project/pweb-cli](https://pypi.org/project/pweb-cli)
-* **Source Code :** [https://github.com/problemfighter/pweb-cli](https://github.com/problemfighter/pweb-cli)
-* **Issue Tracker :** [https://github.com/problemfighter/pweb-cli/issues](https://github.com/problemfighter/pweb-cli/issues)
-* **Website :** [https://www.problemfighter.com/open-source](https://www.problemfighter.com/open-source)
+* **Source Code :** [https://github.com/banglafighter/pweb-cli](https://github.com/banglafighter/pweb-cli)
+* **Issue Tracker :** [https://github.com/banglafighter/pweb-cli/issues](https://github.com/banglafighter/pweb-cli/issues)
+* **Website :** [https://www.banglafighter.com/open-source](https://www.banglafighter.com/open-source)
 

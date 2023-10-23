@@ -19,15 +19,21 @@ def get_dependencies():
 
 setup(
     name='pweb-cli',
-    version='0.0.2',
-    url='https://github.com/problemfighter/pweb-cli',
+    version='0.0.13',
+    url='https://github.com/banglafighter/pweb-cli',
     license='Apache 2.0',
-    author='Problem Fighter',
-    author_email='problemfighter.com@gmail.com',
+    author='Bangla Fighter',
+    author_email='banglafighter.com@gmail.com',
     description='Command line interface for PWeb application, which allow to make PWeb work easy.',
     long_description=README,
     long_description_content_type='text/markdown',
     packages=find_packages(),
+    package_data={'pweb_cli': [
+        'code-template/**/*',
+        'code-template/common/.gitignore',
+        'code-template/pweb/module/.gitignore',
+        'code-template/pweb/application/boot/.gitignore'
+    ]},
     zip_safe=False,
     include_package_data=True,
     platforms='any',

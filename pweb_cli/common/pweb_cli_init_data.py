@@ -29,10 +29,10 @@ class PWebCLIInitData:
         source_dependency.clone = clone
         pweb_sm.add_dependency(source_dependency)
 
-        module: PWebSMModule = PWebSMModule(status=ActionStatus.inactive, script=["python setup.py develop --uninstall", "python setup.py develop"])
-        module.add_subdir(PWebSMDirectory(name="example-app"))
+        module: PWebSMModule = PWebSMModule(status=ActionStatus.active, script=["python setup.py develop --uninstall", "python setup.py develop"])
+        module.add_subdir(PWebSMDirectory(name="boot"))
 
-        app_dependency: PWebSMDependency = PWebSMDependency(name="Application", status=ActionStatus.inactive, dir="application")
+        app_dependency: PWebSMDependency = PWebSMDependency(name="Application", status=ActionStatus.active, dir="application")
         app_dependency.module = module
         pweb_sm.add_dependency(app_dependency)
 
