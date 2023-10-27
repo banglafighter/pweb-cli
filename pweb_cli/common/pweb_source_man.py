@@ -4,7 +4,7 @@ from ppy_common import Console
 from ppy_file_text import FileUtil, StringUtil, TextFileMan
 from ppy_jsonyml import YamlConverter
 from pweb_cli.common.pweb_cli_init_data import PWebCLIInitData
-from pweb_cli.common.pweb_cli_named import PWebCLINamed, UIType, ActionStatus, SourceMode
+from pweb_cli.common.pweb_cli_named import PWebCLINamed, UIType, ActionStatus, SourceMode, AppFileName, AppDirectoryName
 from pweb_cli.common.pweb_cli_path import PWebCLIPath
 from pweb_cli.common.pweb_git_repo import PWebGitRepo
 from pweb_cli.data.pweb_cli_pwebsm import PWebSM, PWebSMModule, PWebSMClone
@@ -13,7 +13,7 @@ from pweb_cli.data.pweb_cli_pwebsm import PWebSM, PWebSMModule, PWebSMClone
 class PWebSourceMan:
     yaml_converter = YamlConverter()
     pweb_git_repo = PWebGitRepo()
-    pwebsm_file_name = "pwebsm"
+    pwebsm_file_name = "pwebsm"  # Must change the AppFileName.PWEBSM
     pwebsm_file_extension = ".yml"
 
     def project_root_dir(self, directory=None):
@@ -99,7 +99,7 @@ class PWebSourceMan:
             self.copy_file(PWebCLIPath.get_template_pweb_dir(), project_root, file_name)
 
         application_path = FileUtil.join_path(project_root, PWebCLIPath.application_dir_name)
-        app_config_file = FileUtil.join_path(application_path, "config", "app_config.py")
+        app_config_file = FileUtil.join_path(application_path, AppDirectoryName.config, AppFileName.APP_CONFIG)
         TextFileMan.find_replace_text_content(app_config_file, [
             {"find": "___APP_NAME___", "replace": name},
             {"find": "___APP_PORT___", "replace": str(port)},
@@ -109,7 +109,7 @@ class PWebSourceMan:
         if not is_default_module:
             boot_module_path = FileUtil.join_path(application_path, "boot")
             FileUtil.delete(boot_module_path)
-            module_registry_file = FileUtil.join_path(application_path, "config", "module_registry.py")
+            module_registry_file = FileUtil.join_path(application_path, AppDirectoryName.config, AppFileName.MODULE_REGISTRY)
             TextFileMan.find_replace_text_content(module_registry_file, [
                 {"find": "from boot.boot_module import BootModule", "replace": ""},
                 {"find": "BootModule", "replace": ""},
