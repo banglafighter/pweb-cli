@@ -53,10 +53,13 @@ class PWebSourceMan:
         command = active + " && " + command
         Console.run(command, command_root, env=dict(os.environ, **env_variable))
 
-    def create_pwebsm_yml(self, project_root, name, ui_type):
-        pwebsm = PWebCLIInitData.get_default_pwebsm(name=name, ui_type=ui_type)
+    def write_pwebsm_yml_file(self, pwebsm: PWebSM, project_root):
         pwebsm_yaml_text = self.yaml_converter.object_to_yaml(od_object=pwebsm, is_ignore_none=True)
         self.yaml_converter.write_yaml_content_to_file(FileUtil.join_path(project_root, self.get_pwebsm_file_name()), yaml_content=pwebsm_yaml_text)
+
+    def create_pwebsm_yml(self, project_root, name, ui_type):
+        pwebsm = PWebCLIInitData.get_default_pwebsm(name=name, ui_type=ui_type)
+        self.write_pwebsm_yml_file(pwebsm=pwebsm, project_root=project_root)
 
     def copy_file(self, source, destination, file_dir_name, dst_file_name=None):
         source_file_dir = FileUtil.join_path(source, file_dir_name)
