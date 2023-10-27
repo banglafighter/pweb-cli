@@ -30,3 +30,14 @@ class AppRendering:
     ssr = "ssr"
     api = "api"
     both = "both"
+
+
+class AppFileName:
+    APP_CONFIG: str = "app_config.py"
+    MODULE_REGISTRY: str = "module_registry.py"
+    PWEBSM: str = "pwebsm.yml"
+
+
+class AppDirectoryName:
+    application = "application"
+    config = "config"
