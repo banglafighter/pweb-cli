@@ -24,6 +24,7 @@ node_modules
 *.sqlite3
 dependencies
 uploaded-resources
+pweb-temp
 env.yml
 /env.yml
 *.log

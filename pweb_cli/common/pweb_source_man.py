@@ -77,7 +77,7 @@ class PWebSourceMan:
         name = StringUtil.find_and_replace_with(name, " ", replace)
         return StringUtil.remove_special_character(name)
 
-    def process_pweb_files(self, project_root, name, port):
+    def process_pweb_files(self, project_root, name, port, is_default_module=True):
         system_hyphen_name = PWebSourceMan.get_system_readable_name(name, "-")
 
         for file_name in [".gitignore", "README.md"]:
@@ -104,6 +104,16 @@ class PWebSourceMan:
             {"find": "___APP_NAME___", "replace": name},
             {"find": "___APP_PORT___", "replace": str(port)},
         ])
+
+        # Remove the boot module
+        if not is_default_module:
+            boot_module_path = FileUtil.join_path(application_path, "boot")
+            FileUtil.delete(boot_module_path)
+            module_registry_file = FileUtil.join_path(application_path, "config", "module_registry.py")
+            TextFileMan.find_replace_text_content(module_registry_file, [
+                {"find": "from boot.boot_module import BootModule", "replace": ""},
+                {"find": "BootModule", "replace": ""},
+            ])
 
     def process_react_files(self, project_root, name, ui_type):
         if ui_type != UIType.react:
