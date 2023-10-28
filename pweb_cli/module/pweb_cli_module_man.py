@@ -7,7 +7,7 @@ from pweb_cli.common.pweb_cli_path import PWebCLIPath
 class PWebCLIModuleMan:
     starting_message: str = "Starting"
 
-    def create_pweb_module(self, name: str, version: str = None, rendering: str = AppRendering.api):
+    def create_pweb_module_by_path(self, name: str, module_root: str, version: str = None, rendering: str = AppRendering.api):
         display_name = StringUtil.human_readable(name)
         class_name = StringUtil.py_class_name(name)
         file_name = setup_package_name = StringUtil.py_hyphen_name(name)
@@ -16,8 +16,7 @@ class PWebCLIModuleMan:
         if not version:
             version = "1.0.0"
 
-        PWebCLIPath.am_i_in_project_root()
-        module_root = FileUtil.join_path(PWebCLIPath.get_application_dir(), file_name)
+        module_root = FileUtil.join_path(module_root, file_name)
         module_package_root = FileUtil.join_path(module_root, package_name)
         PWebCLIPath.exception_on_exist_file(module_root, message=f"{setup_package_name} module already exist.")
         template_path = PWebCLIPath.get_template_pweb_module_dir()
@@ -63,6 +62,10 @@ class PWebCLIModuleMan:
             path = FileUtil.join_path(module_package_root, directory)
             FileUtil.create_directories(path)
             FileUtil.copy(init_file, FileUtil.join_path(path, "__init__.py"))
+
+    def create_pweb_module(self, name: str, version: str = None, rendering: str = AppRendering.api):
+        PWebCLIPath.am_i_in_project_root()
+        return self.create_pweb_module_by_path(name=name, version=version, rendering=rendering, module_root=PWebCLIPath.get_application_dir())
 
     def _create_pweb_component(self, name, module_name, package_name, package_dir, file_extra_name, template_file):
         PWebCLIPath.am_i_in_project_root()
