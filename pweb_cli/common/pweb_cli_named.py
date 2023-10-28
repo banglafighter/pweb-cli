@@ -13,7 +13,7 @@ class SourceMode:
 
 
 class UIType:
-    react = "react"
+    react = "React"
     ssr = "ssr"
     api = "api"
 
