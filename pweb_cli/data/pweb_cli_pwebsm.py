@@ -22,10 +22,11 @@ class PWebSMClone(ODBase):
     script: list[str]
     repo: list[PWebSMRepo] = None
 
-    def __init__(self, status: str = ActionStatus.active, script: list = None, branch: str = None):
+    def __init__(self, status: str = ActionStatus.active, script: list = None, branch: str = None, source: str = None):
         self.status = status
         self.script = script
         self.branch = branch
+        self.source = source
 
     def add_repo(self, repo: PWebSMRepo):
         if not self.repo:
