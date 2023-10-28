@@ -65,6 +65,10 @@ class PWebCLIPath:
         return os.path.join(PWebCLIPath.get_template_dir(), "react")
 
     @staticmethod
+    def get_template_react_module():
+        return os.path.join(PWebCLIPath.get_template_react_dir(), "module")
+
+    @staticmethod
     def get_template_server_dir():
         return os.path.join(PWebCLIPath.get_template_dir(), "server")
 

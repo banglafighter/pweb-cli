@@ -7,6 +7,39 @@ from pweb_cli.common.pweb_cli_path import PWebCLIPath
 class PWebCLIModuleMan:
     starting_message: str = "Starting"
 
+    def create_react_module_by_path(self, name, module_name, ui_root, version=None):
+        if ui_root:
+            ui_root = FileUtil.join_path(ui_root, "ui")
+        else:
+            ui_root = FileUtil.join_path(PWebCLIPath.get_application_dir(), module_name, "ui")
+        FileUtil.create_directories(ui_root)
+
+        if not version:
+            version = "0.0.1"
+
+        dirs = ["app", "tdef", "package.json", "tsconfig.json"]
+        for dir_name in dirs:
+            source = FileUtil.join_path(PWebCLIPath.get_template_react_module(), dir_name)
+            destination = FileUtil.join_path(ui_root, dir_name)
+            FileUtil.copy(source, destination)
+
+        package_json = FileUtil.join_path(ui_root, "package.json")
+        module_config = FileUtil.join_path(ui_root, "app", "module-registry.ts")
+        module_config_rename = FileUtil.join_path(ui_root, "app", name + "-registry.ts")
+        klass_name = StringUtil.py_class_name(name)
+
+        TextFileMan.find_replace_text_content(package_json, [
+            {"find": "__MODULE_NAME__", "replace": name},
+            {"find": "__VERSION__", "replace": version}
+        ])
+
+        TextFileMan.find_replace_text_content(module_config, [
+            {"find": "__MODULE_NAME__", "replace": klass_name},
+            {"find": "___REGISTRY_CLASS_NAME___", "replace": klass_name}
+        ])
+
+        FileUtil.rename(module_config, module_config_rename)
+
     def create_pweb_module_by_path(self, name: str, module_root: str, version: str = None, rendering: str = AppRendering.api):
         display_name = StringUtil.human_readable(name)
         class_name = StringUtil.py_class_name(name)
