@@ -1,3 +1,4 @@
+from copy import copy
 from pweb_cli.common.pweb_cli_named import UIType, ActionStatus
 from pweb_cli.data.pweb_cli_pwebsm import PWebSM, PWebSMClone, PWebSMRepo, PWebSMDependency, PWebSMModule, \
     PWebSMDirectory
@@ -19,7 +20,7 @@ class PWebCLIInitData:
         ]
 
         if ui_type == UIType.react:
-            pweb_sm.end_script.append("npm install -g yarn")
+            pweb_sm.start_script.append("npm install -g yarn")
             pweb_sm.end_script.append("yarn install")
 
         clone: PWebSMClone = PWebSMClone(status=ActionStatus.inactive, branch="dev")
@@ -36,4 +37,4 @@ class PWebCLIInitData:
         app_dependency.module = module
         pweb_sm.add_dependency(app_dependency)
 
-        return pweb_sm
+        return copy(pweb_sm)
