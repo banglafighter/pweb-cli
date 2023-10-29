@@ -9,7 +9,7 @@ env = os.environ.get('source')
 
 
 def get_dependencies():
-    dependency = ["virtualenv", "GitPython==3.1.37"]
+    dependency = ["virtualenv", "GitPython==3.1.37", "gunicorn==21.2.0"]
 
     if env and env == "code":
         return dependency
