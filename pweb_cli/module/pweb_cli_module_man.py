@@ -7,9 +7,15 @@ from pweb_cli.common.pweb_cli_path import PWebCLIPath
 class PWebCLIModuleMan:
     starting_message: str = "Starting"
 
+    def get_registry_filename(self, package_name):
+        return f"{package_name}-registry.ts"
+
+    def get_ui_root(self, ui_root):
+        return FileUtil.join_path(ui_root, "ui")
+
     def create_react_module_by_path(self, name, module_name, ui_root, version=None):
         if ui_root:
-            ui_root = FileUtil.join_path(ui_root, "ui")
+            ui_root = self.get_ui_root(ui_root=ui_root)
         else:
             ui_root = FileUtil.join_path(PWebCLIPath.get_application_dir(), module_name, "ui")
         FileUtil.create_directories(ui_root)
@@ -25,7 +31,7 @@ class PWebCLIModuleMan:
 
         package_json = FileUtil.join_path(ui_root, "package.json")
         module_config = FileUtil.join_path(ui_root, "app", "module-registry.ts")
-        module_config_rename = FileUtil.join_path(ui_root, "app", name + "-registry.ts")
+        module_config_rename = FileUtil.join_path(ui_root, "app", self.get_registry_filename(name))
         klass_name = StringUtil.py_class_name(name)
 
         TextFileMan.find_replace_text_content(package_json, [
