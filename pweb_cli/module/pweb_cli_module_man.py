@@ -40,17 +40,28 @@ class PWebCLIModuleMan:
 
         FileUtil.rename(module_config, module_config_rename)
 
+    def get_module_root(self, name: str, root_dir: str):
+        file_name = StringUtil.py_hyphen_name(name)
+        return FileUtil.join_path(root_dir, file_name)
+
+    def get_module_package_root(self, name: str, module_root: str):
+        package_name = StringUtil.py_underscore_name(name)
+        return FileUtil.join_path(module_root, package_name)
+
+    def get_module_filename(self, package_name):
+        return f"{package_name}_module.py"
+
     def create_pweb_module_by_path(self, name: str, module_root: str, version: str = None, rendering: str = AppRendering.api):
         display_name = StringUtil.human_readable(name)
         class_name = StringUtil.py_class_name(name)
-        file_name = setup_package_name = StringUtil.py_hyphen_name(name)
+        setup_package_name = StringUtil.py_hyphen_name(name)
         package_name = StringUtil.py_underscore_name(name)
 
         if not version:
             version = "1.0.0"
 
-        module_root = FileUtil.join_path(module_root, file_name)
-        module_package_root = FileUtil.join_path(module_root, package_name)
+        module_root = self.get_module_root(name=name, root_dir=module_root)
+        module_package_root = self.get_module_package_root(name=name, module_root=module_root)
         PWebCLIPath.exception_on_exist_file(module_root, message=f"{setup_package_name} module already exist.")
         template_path = PWebCLIPath.get_template_pweb_module_dir()
 
@@ -77,7 +88,7 @@ class PWebCLIModuleMan:
             TextFileMan.find_replace_text_content(copy_to_path, find_replace)
 
         Console.info("Creating Component Register")
-        module_descriptor = FileUtil.join_path(module_package_root, f"{package_name}_module.py")
+        module_descriptor = FileUtil.join_path(module_package_root, self.get_module_filename(package_name))
         FileUtil.copy(FileUtil.join_path(template_path, "module_registry.py"), module_descriptor)
         TextFileMan.find_replace_text_content(module_descriptor, find_replace)
 
