@@ -1,0 +1,10 @@
+== Error /bin/sh: 1: source: not found
+
+because `source` is a bash command, but subprocess.run() by default uses /bin/sh, not /bin/bash. In /bin/sh, source
+doesn’t exist — it's . (dot) instead.
+
+Solution:
+
+```bash
+sudo ln -sf /bin/bash /bin/sh
+```
