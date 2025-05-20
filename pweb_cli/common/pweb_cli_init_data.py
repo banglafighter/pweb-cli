@@ -12,6 +12,7 @@ class PWebCLIInitData:
 
         pweb_sm.start_script = [
             "python --version",
+            "python -m pip install --upgrade pip",
         ]
 
         pweb_sm.end_script = [
